@@ -1,0 +1,97 @@
+.,//hoooo
+.,===>===
+
+obj_data
+
+京 = 3.0
+// TO treat 3 as an object, simply do:
+(3).method do: 3 something: 9
+obj = {}
+obj.horga = fun (int) {bedda: int, sing: int} [
+  begga * sing
+]
+
+// Assignment uses =
+// Modification uses :=
+
+// In Ver 1.0, is treated as
+// obj.horga = fun(any) {bedda: any, sing: any} ...
+// Essentially, does no type-checking
+
+obj.eles = fun(int) {self} [
+  3
+]
+// self can only be the first argument if it is present
+
+io.print (obj.horga bedda: 3 sing: (obj.eles))
+
+// print is defined as
+// fun {info: [any]}
+// If function only has 1 argument:
+// - arguments are NOT labeled
+// - argument name can begin with a star, which would mean that it becomes and array, and has
+// unlimited arity
+
+// so print is technically treated as:
+// fun {info: [any]}
+// A single element of type X can be transformed into an array of [X] by the language
+
+// Atoms and Groups
+// An atom is simply something in the form $<identifier> (e.g. $true)
+// The only fact of an atom: $atom == $atom (it is equal to itself) (NOTE: $atom != $Atom)
+group boolean = $true | $false
+// groups creates a type that only accepts atoms, so:
+always_true = fun (boolean) {x: boolean} [
+  not x or x // NOTE: or (and and) should shortcircuit, but if not UPDATE THIS ACCORDINGLY
+]
+
+// not, or, & and are implemented with blocks and groups
+aether.not = fun (boolean) {c: {=>boolean}} [
+  if (c.call) == $true {
+    $false
+  } else {
+    $true
+  }
+]
+
+// NOTE: If returns a value if together with else, (otherwise returns type "void")
+// IMPL NOTE: WE do have null, and its type is "any", because void type CANNOT be type any
+// We have implicit returns
+
+aether.or = fun (boolean) {l: {=> boolean}, r: {=> boolean}} [
+  if l.call == $true {
+    $true
+  } else {
+    r.call
+  }
+]
+
+// aether are where functions without a definite object go if you want them to be unmoddable,
+// as any assignment to a subkey in aether is frozen, and remains constant
+
+// An idea for constants
+/*
+Syntax Sugar
+#HAPP = 3
+x = #HAPP
+#HAPP = 4 // **Syntax** error / or runtime error at first
+
+Sugar for:
+
+aether.HAPP = 3
+x = aether.HAPP
+aether.HAPP = 4 // ERROR
+ */
+
+/*
+ Two things for later
+ interfaces
+ tuples
+
+ interface Viday {
+  boolean cross,
+  int hary,
+ }
+
+ x: int.int = 3, 3
+ */

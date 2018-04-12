@@ -1,0 +1,57 @@
+---
+imports: |
+  use parser::{Literal as PLiteral, Stat, Type, Arguments};
+  use std::collections::HashMap;
+  use lexer::Token;
+data_type: expr
+types:
+  - name: NewObject
+    members:
+      - type: HashMap<String, Expr>
+        name: map
+  - name: Literal
+    members:
+      - type: PLiteral
+        name: literal
+      - type: Token
+        name: token
+  - name: Unary
+    members:
+      - type: Token
+        name: op
+      - type: Box<Expr>
+        name: value
+  - name: Binary
+    members:
+      - type: Token
+        name: op
+      - type: Box<Expr>
+        name: lhs
+      - type: Box<Expr>
+        name: rhs
+  - name: Grouping
+    members:
+      - type: Box<Expr>
+        name: expr
+  - name: Function
+    members:
+      - type: Type
+        name: ret_type
+      - type: HashMap<String, Type>
+        name: args
+      - type: Box<Expr>
+        name: body
+      - type: bool
+        name: is_method
+  - name: Block
+    members:
+      - type: Vec<Stat>
+        name: body
+  - name: FunctionCall
+    members:
+      - type: Box<Expr>
+        name: target
+      - type: Arguments
+        name: args
+      - type: Option<Type>
+        name: as_type

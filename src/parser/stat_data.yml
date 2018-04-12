@@ -1,0 +1,26 @@
+---
+imports: |
+  use parser::expr::Expr;
+  use lexer::Token;
+data_type: stat
+types:
+  - name: Assignment
+    members:
+      - type: Expr
+        name: lhs
+      - type: Expr
+        name: rhs
+      - type: Token
+        name: op
+  - name: Modification
+    members:
+      - type: Expr
+        name: lhs
+      - type: Expr
+        name: rhs
+      - type: Token
+        name: op
+  - name: Expression
+    members:
+      - type: Expr
+        name: expr
