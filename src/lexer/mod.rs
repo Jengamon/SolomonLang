@@ -30,17 +30,17 @@ impl Lexer {
                     '.' => self.single(TokenType::Dot, "."),
                     ',' => self.single(TokenType::Comma, ","),
                     ':' => match self.peek() {
-                        Some('=') => {self.next_char(); Some(Token::new(TokenType::ColonEqual, self.lindex))},
-                        _ => Some(Token::new(TokenType::Colon, self.lindex))
+                        Some('=') => {self.next_char(); self.single(TokenType::ColonEqual, ":=")},
+                        _ => self.single(TokenType::Colon, ":")
                     },
                     '-' => match self.peek() {
-                        Some('>') => {self.next_char(); Some(Token::new(TokenType::ThinArrow, self.lindex))},
-                        _ => Some(Token::new(TokenType::Minus, self.lindex))
+                        Some('>') => {self.next_char(); self.single(TokenType::ThinArrow, "->")},
+                        _ => self.single(TokenType::Minus, "-")
                     },
                     '=' => match self.peek() {
-                        Some('>') => {self.next_char(); Some(Token::new(TokenType::ThickArrow, self.lindex))},
-                        Some('=') => {self.next_char(); Some(Token::new(TokenType::EqualEqual, self.lindex))},
-                        _ => Some(Token::new(TokenType::Equal, self.lindex))
+                        Some('>') => {self.next_char(); self.single(TokenType::ThickArrow, "=>")},
+                        Some('=') => {self.next_char(); self.single(TokenType::EqualEqual, "==")},
+                        _ => self.single(TokenType::Equal, "=")
                     },
                     '+' => self.single(TokenType::Plus, "+"),
                     '{' => Some(Token::new(TokenType::LBrace, self.lindex)),

@@ -5,37 +5,37 @@ mod pretty_print;
 use lexer::{Token, TokenType};
 use std::collections::HashMap;
 
-pub use self::expr::*;
+pub use self::expr::{Literal as ELiteral, *};
 pub use self::stat::*;
 pub use self::pretty_print::LispyPrinter;
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-struct Atom(usize);
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct Atom(String);
 
-#[derive(Clone, Debug)]
-struct AtomTable {
-    register: Vec<String>,
-}
-
-impl AtomTable {
-    fn new() -> AtomTable {
-        AtomTable { register: vec![] }
-    }
-
-    fn create_atom(&mut self, n: String) -> Atom {
-        match self.register.iter().position(|x| *x == n) {
-            Some(i) => Atom(i),
-            None => {
-                self.register.push(n);
-                Atom(self.register.len() - 1)
-            }
-        }
-    }
-
-    fn atom_name(&mut self, a: Atom) -> String {
-        self.register[a.0].clone()
-    }
-}
+// #[derive(Clone, Debug)]
+// struct AtomTable {
+//     register: Vec<String>,
+// }
+//
+// impl AtomTable {
+//     fn new() -> AtomTable {
+//         AtomTable { register: vec![] }
+//     }
+//
+//     fn create_atom(&mut self, n: String) -> Atom {
+//         match self.register.iter().position(|x| *x == n) {
+//             Some(i) => Atom(i),
+//             None => {
+//                 self.register.push(n);
+//                 Atom(self.register.len() - 1)
+//             }
+//         }
+//     }
+//
+//     fn atom_name(&mut self, a: Atom) -> String {
+//         self.register[a.0].clone()
+//     }
+// }
 
 #[derive(Clone, Debug)]
 pub enum Literal {
@@ -308,4 +308,16 @@ impl Parser {
     }
 
     pub fn is_done(&self) -> bool { self.index >= self.tokens.iter().filter(|t| t.token_type() != TokenType::EOF).count() }
+}
+
+use std::iter::Iterator;
+impl Iterator for Parser {
+    type Item = Result<Stat, ParserError>;
+    fn next(&mut self) -> Option<Result<Stat, ParserError>> {
+        if self.is_done() {
+            None
+        } else {
+            Some(self.parse_statement())
+        }
+    }
 }

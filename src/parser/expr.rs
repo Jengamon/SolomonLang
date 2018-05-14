@@ -516,14 +516,16 @@ impl FunctionCall {
 
 pub trait ExprVisitor<N> {
   fn visit_newobject(&self, newobject: NewObject) -> N;
-fn visit_literal(&self, literal: Literal) -> N;
-fn visit_unary(&self, unary: Unary) -> N;
-fn visit_binary(&self, binary: Binary) -> N;
-fn visit_grouping(&self, grouping: Grouping) -> N;
-fn visit_function(&self, function: Function) -> N;
-fn visit_block(&self, block: Block) -> N;
-fn visit_functioncall(&self, functioncall: FunctionCall) -> N;
-fn visit_expr(&self, d: Expr) -> N {
+  fn visit_literal(&self, literal: Literal) -> N;
+  fn visit_unary(&self, unary: Unary) -> N;
+  fn visit_binary(&self, binary: Binary) -> N;
+  fn visit_grouping(&self, grouping: Grouping) -> N;
+  fn visit_function(&self, function: Function) -> N;
+  fn visit_block(&self, block: Block) -> N;
+  fn visit_functioncall(&self, functioncall: FunctionCall) -> N;
+  
+
+  fn visit_expr(&self, d: Expr) -> N {
     match d {
       Expr::NewObject(ref d) => self.visit_newobject(d.clone()),
       Expr::Literal(ref d) => self.visit_literal(d.clone()),

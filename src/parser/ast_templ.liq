@@ -88,7 +88,7 @@ impl {{type.name}} {
 pub trait {{data_type | capitalize}}Visitor<N> {
   {% for type in types -%}
   fn visit_{{type.name | downcase}}(&self, {{type.name | downcase}}: {{type.name}}) -> N;
-{% endfor -%}
+  {% endfor %}
 
   fn visit_{{data_type}}(&self, d: {{data_type | capitalize}}) -> N {
     match d {

@@ -1,7 +1,10 @@
 require "liquid"
 require 'yaml'
 
-tmpl_path, data_path, target = ARGV
+tmpl_path, data_path, target, lic_path = ARGV
+
+lic_path = "./LICENSE" unless lic_path
+p lic_path
 
 if !tmpl_path.is_a? String or !data_path.is_a? String or !target.is_a? String then
     raise "Must supply three arguments"
@@ -29,8 +32,8 @@ o << <<DOC
 // DO NOT MODIFY, AS IT WILL BE DELETED WHEN REGENERATED.
 
 DOC
-if File.exists?("../../LICENSE") then
-  o << quick_read("../../LICENSE", "// ")
+if File.exists?(lic_path) then
+  o << quick_read(lic_path, "// ")
   o << "\n"
 end
 o << file

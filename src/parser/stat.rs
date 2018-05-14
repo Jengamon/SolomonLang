@@ -220,9 +220,11 @@ impl Expression {
 
 pub trait StatVisitor<N> {
   fn visit_assignment(&self, assignment: Assignment) -> N;
-fn visit_modification(&self, modification: Modification) -> N;
-fn visit_expression(&self, expression: Expression) -> N;
-fn visit_stat(&self, d: Stat) -> N {
+  fn visit_modification(&self, modification: Modification) -> N;
+  fn visit_expression(&self, expression: Expression) -> N;
+  
+
+  fn visit_stat(&self, d: Stat) -> N {
     match d {
       Stat::Assignment(ref d) => self.visit_assignment(d.clone()),
       Stat::Modification(ref d) => self.visit_modification(d.clone()),
